@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     appendChatMessage('model', "Sorry, I couldn't generate a response. Please try again.");
                 }
             } catch (error) {
-                console.error("Error calling Gemini API for chatbot:", error);
+                console.error("Error calling Gemini API for chatbot:", error); 
                 // Remove typing indicator
                 if (chatMessagesContainer.contains(typingIndicator)) {
                     chatMessagesContainer.removeChild(typingIndicator);
