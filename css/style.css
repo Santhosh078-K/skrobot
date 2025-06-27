@@ -1,0 +1,137 @@
+/* Custom CSS for SK Robotics Website */
+
+/* Ensure smooth scrolling for anchor links (still useful for internal page anchors like on homepage) */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Base styles for page sections */
+/* This class is now less critical as pages are separate, but still good for consistent padding/margins */
+.page-section {
+    min-height: calc(100vh - 80px); /* Adjust for header height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 80px; /* Offset for fixed header */
+    padding-bottom: 80px;
+}
+
+/* Active navigation link styling */
+.nav-link.active {
+    color: #4F46E5; /* Indigo-600 */
+    border-bottom: 2px solid #4F46E5;
+    font-weight: 600; /* Semi-bold */
+}
+
+/* Adjustments for the Hero Section to ensure full viewport height minus header */
+#hero-section { /* Changed ID from #home to #hero-section to be more specific */
+    min-height: calc(100vh - 80px); /* 80px is an approximation of header height */
+    padding-top: 0; /* No extra padding for hero section */
+    padding-bottom: 0; /* No extra padding for hero section */
+}
+
+/* Specific styling for the map iframe to be fully responsive within its container */
+#contact-page iframe { /* Changed ID from #contact to #contact-page */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- Animations --- */
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Add a slight delay for staggered animation if desired on multiple elements */
+.animate-on-scroll:nth-child(1) { animation-delay: 0s; }
+.animate-on-scroll:nth-child(2) { animation-delay: 0.1s; }
+.animate-on-scroll:nth-child(3) { animation-delay: 0.2s; }
+.animate-on-scroll:nth-child(4) { animation-delay: 0.3s; }
+/* Apply opacity and transform before animation starts so elements are hidden */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+
+/* --- Chatbot Specific Styles --- */
+#chatbot-modal {
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+#chatbot-modal.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+#chatbot-toggle-btn {
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+#chatbot-toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Chatbot typing indicator animation */
+.typing-indicator span {
+    animation: blink 1s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+
+/* Prose classes for Markdown rendering */
+.prose {
+    color: inherit; /* Ensure text color from parent is inherited */
+    font-size: 0.875rem; /* text-sm */
+    line-height: 1.5;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+    font-weight: 600; /* semi-bold */
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: #4338ca; /* indigo-700 darker shade */
+}
+
+.prose ul, .prose ol {
+    list-style-position: inside;
+    margin-left: 1rem;
+    padding-left: 0;
+}
+
+.prose li {
+    margin-bottom: 0.5em;
+}
+
+.prose p {
+    margin-bottom: 1em;
+}
+
+.prose strong {
+    font-weight: 700; /* bold */
+}
