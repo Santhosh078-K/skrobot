@@ -22,6 +22,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatInput = document.getElementById('chat-input');
     const chatSendBtn = document.getElementById('chat-send-btn');
 
+    // --- Dynamic Homepage Background Images ---
+    const heroSection = document.getElementById('hero-section');
+    // These are the Cloudinary URLs provided by the user
+    const heroBackgroundImages = [
+        'https://res.cloudinary.com/dujxs5154/image/upload/v1751132803/sk%20robotics/sample3_tjqauq.jpg',
+        'https://res.cloudinary.com/dujxs5154/image/upload/v1751132802/sk%20robotics/sample5_qsl3lj.jpg',
+        'https://res.cloudinary.com/dujxs5154/image/upload/v1751132802/sk%20robotics/sample1_ecjfcp.jpg',
+        'https://res.cloudinary.com/dujxs5154/image/upload/v1751132802/sk%20robotics/sample4_a0doy6.jpg',
+        'https://res.cloudinary.com/dujxs5154/image/upload/v1751132802/sk%20robotics/sample2_iknqkk.jpg'
+    ];
+    let currentImageIndex = 0;
+
+    /**
+     * Preloads an array of image URLs to prevent flickering.
+     * @param {string[]} imageUrls - An array of image URLs to preload.
+     */
+    const preloadImages = (imageUrls) => {
+        imageUrls.forEach(url => {
+            const img = new Image();
+            img.src = url;
+        });
+    };
+
+    function changeHeroBackground() {
+        if (heroSection) {
+            currentImageIndex = (currentImageIndex + 1) % heroBackgroundImages.length;
+            heroSection.style.backgroundImage = `url('${heroBackgroundImages[currentImageIndex]}')`;
+        }
+    }
+
+    // Preload all background images on page load
+    preloadImages(heroBackgroundImages);
+
+    // Change background every 5 seconds
+    if (heroSection) {
+        // Set initial background after preloading
+        heroSection.style.backgroundImage = `url('${heroBackgroundImages[currentImageIndex]}')`;
+        setInterval(changeHeroBackground, 5000); // Change image every 5 seconds
+    }
+
+
     // --- Animation and Interaction Enhancements ---
 
     // Function to add a class for fade-in effect on scroll
