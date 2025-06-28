@@ -99,10 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle form submission (only if on the registration.html page)
     if (registrationForm) {
-        registrationForm.addEventListener('submit', (event) => {
+        registrationForm.addEventListener('submit', async (event) => { // Made async to use await with fetch
             event.preventDefault(); // Prevent default form submission
 
-            // Basic client-side validation
+            // Client-side validation
             const parentName = document.getElementById('parent-name').value.trim();
             const studentName = document.getElementById('student-name').value.trim();
             const studentAge = document.getElementById('student-age').value.trim();
@@ -115,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Simple email and phone number format validation
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(emailAddress)) {
                 displayMessage('Please enter a valid email address.', false);
@@ -128,23 +127,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Simulate form submission
-            console.log('Form Submitted:', {
-                parentName: parentName,
-                studentName: studentName,
-                studentAge: studentAge,
-                phoneNumber: phoneNumber,
-                emailAddress: emailAddress,
-                courseProgram: courseProgram,
-                preferredStartDate: document.getElementById('preferred-start-date').value,
-                message: document.getElementById('message').value
-            });
+            // Set the _replyto hidden field before submission
+            document.getElementById('form-reply-to-email').value = emailAddress;
 
-            // Display success message
-            displayMessage('Thank you for registering! We will contact you within 24 hours.', true);
+            // Use fetch to submit the form data to Formspree
+            const formData = new FormData(registrationForm);
 
-            // Clear the form
-            registrationForm.reset();
+            try {
+                const response = await fetch(registrationForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json' // Important for Formspree AJAX
+                    }
+                });
+
+                if (response.ok) {
+                    displayMessage('Thank you for registering! We will contact you within 24 hours.', true);
+                    registrationForm.reset();
+                } else {
+                    const errorData = await response.json();
+                    console.error('Formspree error:', errorData);
+                    displayMessage('Registration failed. Please try again later.', false);
+                }
+            } catch (error) {
+                console.error('Network or submission error:', error);
+                displayMessage('An error occurred during submission. Please check your internet connection and try again.', false);
+            }
         });
     }
 
@@ -268,7 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             messageElement.classList.add('bg-gray-200', 'text-gray-800', 'rounded-bl-none');
         }
-        messageElement.textContent = message; // Initial text content
 
         // If it's a model message and marked is available, parse markdown
         if (sender === 'model' && typeof marked !== 'undefined') {

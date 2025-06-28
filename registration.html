@@ -62,7 +62,8 @@
                 </p>
 
                 <div class="bg-gray-50 rounded-lg shadow-lg p-8 transform transition duration-300 hover:scale-[1.01] hover:shadow-xl animate-on-scroll">
-                    <form id="registration-form" class="max-w-xl mx-auto space-y-6">
+                    <!-- IMPORTANT: Replace "YOUR_FORMSPREE_FORM_ID" with the actual ID you got from Formspree -->
+                    <form id="registration-form" action="https://formspree.io/f/mblyqwzn" method="POST" class="max-w-xl mx-auto space-y-6">
                         <div>
                             <label for="parent-name" class="block text-gray-700 text-sm font-bold mb-2">Parent's Name <span class="text-red-500">*</span></label>
                             <input type="text" id="parent-name" name="parentName" required
@@ -112,6 +113,11 @@
                             <textarea id="message" name="message" rows="4"
                                 class="shadow-sm appearance-none border rounded-md w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"></textarea>
                         </div>
+
+                        <!-- Hidden fields for Formspree: _replyto for reply-email and _subject for email subject -->
+                        <input type="hidden" name="_replyto" id="form-reply-to-email">
+                        <input type="hidden" name="_subject" value="New SK Robotics Class Registration!">
+
                         <button type="submit"
                             class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-full shadow-lg transition duration-300 transform hover:scale-105">
                             Submit Registration
@@ -178,7 +184,7 @@
             <div>
                 <h3 class="text-xl font-bold text-indigo-300 mb-4">Contact Info</h3>
                 <p class="text-gray-400 mb-2"><i class="fas fa-phone-alt mr-2"></i>+91 98765 43210</p>
-                <p class="text-gray-400 mb-2"><i class="fas fa-envelope mr-2"></i>contact@skrobotics.com</p>
+                <p class="text-400 mb-2"><i class="fas fa-envelope mr-2"></i>contact@skrobotics.com</p>
                 <p class="text-gray-400"><i class="fas fa-map-marker-alt mr-2"></i>123 Tech Park, Indiranagar, Bangalore</p>
                 <div class="flex justify-center md:justify-start space-x-4 mt-6">
                     <a href="#" class="text-gray-400 hover:text-indigo-300 transition duration-300"><i class="fab fa-facebook-f text-xl"></i></a>
