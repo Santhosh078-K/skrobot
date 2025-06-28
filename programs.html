@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Marked.js for Markdown rendering in LLM outputs -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./css/style.css">
 </head>
@@ -28,8 +30,7 @@
                 <a href="index.html" class="nav-link text-gray-600 hover:text-indigo-600 font-medium transition duration-300 rounded-md py-2 px-3">Home</a>
                 <a href="courses.html" class="nav-link text-gray-600 hover:text-indigo-600 font-medium transition duration-300 rounded-md py-2 px-3">Courses</a>
                 <a href="programs.html" class="nav-link text-gray-600 hover:text-indigo-600 font-medium transition duration-300 rounded-md py-2 px-3 active">Programs</a>
-                <a href="achievements-registration.html" class="nav-link text-gray-600 hover:text-indigo-600 font-medium transition duration-300 rounded-md py-2 px-3">Achievements</a>
-                <a href="resources.html" class="nav-link text-gray-600 hover:text-indigo-600 font-medium transition duration-300 rounded-md py-2 px-3">Resources</a>
+                <a href="registration.html" class="nav-link text-gray-600 hover:text-indigo-600 font-medium transition duration-300 rounded-md py-2 px-3">Register</a>
                 <a href="contact.html" class="nav-link text-gray-600 hover:text-indigo-600 font-medium transition duration-300 rounded-md py-2 px-3">Contact Us</a>
             </nav>
             <!-- Mobile Menu Button -->
@@ -43,8 +44,7 @@
                 <a href="index.html" class="nav-link block text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 w-full text-center py-2 px-4 rounded-md transition duration-300">Home</a>
                 <a href="courses.html" class="nav-link block text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 w-full text-center py-2 px-4 rounded-md transition duration-300">Courses</a>
                 <a href="programs.html" class="nav-link block text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 w-full text-center py-2 px-4 rounded-md transition duration-300 active">Programs</a>
-                <a href="achievements-registration.html" class="nav-link block text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 w-full text-center py-2 px-4 rounded-md transition duration-300">Achievements</a>
-                <a href="resources.html" class="nav-link block text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 w-full text-center py-2 px-4 rounded-md transition duration-300">Resources</a>
+                <a href="registration.html" class="nav-link block text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 w-full text-center py-2 px-4 rounded-md transition duration-300">Register</a>
                 <a href="contact.html" class="nav-link block text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 w-full text-center py-2 px-4 rounded-md transition duration-300">Contact Us</a>
             </nav>
         </div>
@@ -56,10 +56,10 @@
         <!-- Programs Section -->
         <section id="programs-page" class="py-16 bg-gray-50">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl sm:text-4xl font-bold text-center text-indigo-700 mb-12">Special Programs & Workshops</h2>
+                <h2 class="text-3xl sm:text-4xl font-bold text-center text-indigo-700 mb-12 animate-on-scroll">Special Programs & Workshops</h2>
 
                 <!-- Section 1: Weekend Classes -->
-                <div class="bg-white rounded-lg shadow-lg p-8 mb-12 transform transition duration-300 hover:scale-[1.01] hover:shadow-xl">
+                <div class="bg-white rounded-lg shadow-lg p-8 mb-12 transform transition duration-300 hover:scale-[1.01] hover:shadow-xl animate-on-scroll">
                     <h3 class="text-2xl font-bold text-indigo-700 mb-4">Our Weekend Batches</h3>
                     <p class="text-lg text-gray-700 mb-6">
                         Can't make it on weekdays? Our intensive weekend classes cover our core curriculum in a flexible format. New batches start on the first Saturday of every month.
@@ -84,13 +84,13 @@
                             </tbody>
                         </table>
                     </div>
-                    <a href="achievements-registration.html" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full transition duration-300">
+                    <a href="registration.html" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full transition duration-300">
                         Register for a Weekend Class
                     </a>
                 </div>
 
                 <!-- Section 2: Upcoming Workshops -->
-                <div class="bg-white rounded-lg shadow-lg p-8 transform transition duration-300 hover:scale-[1.01] hover:shadow-xl">
+                <div class="bg-white rounded-lg shadow-lg p-8 transform transition duration-300 hover:scale-[1.01] hover:shadow-xl animate-on-scroll">
                     <h3 class="text-2xl font-bold text-indigo-700 mb-4">Upcoming Workshops</h3>
                     <p class="text-lg text-gray-700 mb-8">
                         Look out for our special one-day or two-day workshops on exciting topics!
@@ -103,7 +103,7 @@
                                 <p class="text-sm text-indigo-500 mb-4"><i class="far fa-calendar-alt mr-2"></i>August 10th - 11th, 2025</p>
                                 <p class="text-gray-700 mb-4">In this 2-day event, students will build and fly their own quadcopter from scratch.</p>
                                 <p class="text-green-600 font-bold mb-4"><i class="fas fa-check-circle mr-2"></i>Registration Open</p>
-                                <a href="achievements-registration.html" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full transition duration-300">
+                                <a href="registration.html" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full transition duration-300">
                                     Register Now
                                 </a>
                             </div>
@@ -116,7 +116,7 @@
                                 <p class="text-sm text-indigo-500 mb-4"><i class="far fa-calendar-alt mr-2"></i>September 5th - 6th, 2025</p>
                                 <p class="text-gray-700 mb-4">Prepare for regional and national robotics competitions with advanced strategies.</p>
                                 <p class="text-orange-600 font-bold mb-4"><i class="fas fa-exclamation-circle mr-2"></i>Seats Filling Fast!</p>
-                                <a href="achievements-registration.html" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full transition duration-300">
+                                <a href="registration.html" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full transition duration-300">
                                     Register Now
                                 </a>
                             </div>
@@ -124,7 +124,7 @@
                     </div>
 
                     <!-- New Section: Generate Workshop Ideas with LLM -->
-                    <div class="bg-gray-100 rounded-lg shadow-lg p-8 mt-12">
+                    <div class="bg-gray-100 rounded-lg shadow-lg p-8 mt-12 animate-on-scroll">
                         <h3 class="text-2xl font-bold text-indigo-700 mb-4 text-center">✨ Generate New Workshop Ideas</h3>
                         <p class="text-lg text-gray-700 text-center max-w-2xl mx-auto mb-6">
                             Enter a topic or theme, and our AI will suggest creative workshop ideas for you!
@@ -148,6 +148,38 @@
 
     </main>
 
+    <!-- Floating Chatbot Button -->
+    <button id="chatbot-toggle-btn" class="fixed bottom-6 right-6 bg-indigo-600 text-white p-4 rounded-full shadow-lg hover:bg-indigo-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 z-50">
+        <i class="fas fa-comments text-2xl"></i>
+    </button>
+
+    <!-- Chatbot Modal -->
+    <div id="chatbot-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-[100] hidden">
+        <div class="bg-white rounded-lg shadow-xl w-11/12 md:w-1/2 lg:w-1/3 h-3/4 flex flex-col overflow-hidden">
+            <!-- Modal Header -->
+            <div class="bg-indigo-600 text-white p-4 flex justify-between items-center rounded-t-lg">
+                <h3 class="text-xl font-semibold"><i class="fas fa-robot mr-2"></i>SK Robotics AI Assistant</h3>
+                <button id="chatbot-close-btn" class="text-white hover:text-gray-200 focus:outline-none">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Chat Messages Container -->
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-100 flex flex-col space-y-3">
+                <!-- Chat messages will be appended here by JS -->
+            </div>
+
+            <!-- Chat Input -->
+            <div class="p-4 bg-gray-200 flex items-center rounded-b-lg">
+                <input type="text" id="chat-input" placeholder="Type your message..."
+                    class="flex-1 border rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <button id="chat-send-btn" class="ml-3 bg-indigo-600 text-white p-3 rounded-full hover:bg-indigo-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-10">
         <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
@@ -161,8 +193,7 @@
                     <li><a href="index.html" class="text-gray-400 hover:text-indigo-300 transition duration-300">Home</a></li>
                     <li><a href="courses.html" class="text-gray-400 hover:text-indigo-300 transition duration-300">Courses</a></li>
                     <li><a href="programs.html" class="text-gray-400 hover:text-indigo-300 transition duration-300">Programs</a></li>
-                    <li><a href="achievements-registration.html" class="text-gray-400 hover:text-indigo-300 transition duration-300">Achievements</a></li>
-                    <li><a href="resources.html" class="text-gray-400 hover:text-indigo-300 transition duration-300">Resources</a></li>
+                    <li><a href="registration.html" class="text-gray-400 hover:text-indigo-300 transition duration-300">Register</a></li>
                     <li><a href="contact.html" class="text-gray-400 hover:text-indigo-300 transition duration-300">Contact Us</a></li>
                 </ul>
             </div>

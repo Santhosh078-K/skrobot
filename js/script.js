@@ -4,11 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileMenu = document.getElementById('mobile-menu');
     // Get all navigation links
     const navLinks = document.querySelectorAll('.nav-link');
-    // Get the registration form and message box (only relevant on achievements-registration.html)
+    // Get the registration form and message box (only relevant on registration.html)
     const registrationForm = document.getElementById('registration-form');
     const formMessage = document.getElementById('form-message');
 
-    // Get elements for the LLM features
+    // Get elements for the LLM features (from courses.html and programs.html)
     const generateSyllabusButtons = document.querySelectorAll('.generate-syllabus-btn');
     const workshopTopicInput = document.getElementById('workshop-topic-input');
     const generateWorkshopBtn = document.getElementById('generate-workshop-btn');
@@ -38,10 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
             rootMargin: '0px 0px -50px 0px' // Offset the trigger point
         });
 
-        // Select elements to animate. Add these classes to your HTML elements.
+        // Select elements with 'animate-on-scroll' class
         document.querySelectorAll('.animate-on-scroll').forEach(element => {
-            // These initial classes are now handled by CSS directly for cleaner animation setup
-            // element.classList.add('opacity-0', 'translate-y-4');
             observer.observe(element);
         });
     };
@@ -77,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Displays a message to the user (success or error) for the registration form.
-     * This function is only called on the achievements-registration.html page.
+     * This function is only called on the registration.html page.
      * @param {string} message - The message to display.
      * @param {boolean} isSuccess - True for success, false for error.
      */
@@ -99,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Handle form submission (only if on the achievements-registration.html page)
+    // Handle form submission (only if on the registration.html page)
     if (registrationForm) {
         registrationForm.addEventListener('submit', (event) => {
             event.preventDefault(); // Prevent default form submission
@@ -161,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let chatHistory = [];
         chatHistory.push({ role: "user", parts: [{ text: prompt }] });
         const payload = { contents: chatHistory };
-        const apiKey = "AIzaSyCsX1cPaU-lkvg3vrJhnexwmx5qRILunzk"; // Canvas will automatically provide the API key
+        const apiKey = ""; // Canvas will automatically provide the API key
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
         try {
@@ -186,31 +184,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Feature 1: Generate Syllabus Idea on Courses Page
-    generateSyllabusButtons.forEach(button => {
-        button.addEventListener('click', async (event) => {
-            const courseTitle = event.target.dataset.courseTitle;
-            const outputDiv = event.target.nextElementSibling; // The div right after the button
+    // Check if generateSyllabusButtons exist (only on courses.html)
+    if (generateSyllabusButtons.length > 0) {
+        generateSyllabusButtons.forEach(button => {
+            button.addEventListener('click', async (event) => {
+                const courseTitle = event.target.dataset.courseTitle;
+                const outputDiv = event.target.nextElementSibling; // The div right after the button
 
-            if (outputDiv) {
-                outputDiv.classList.remove('hidden');
-                outputDiv.innerHTML = '<p class="text-center text-purple-700">Generating syllabus...</p>';
-            }
-
-            const prompt = `Generate a detailed syllabus idea for a robotics course titled "${courseTitle}" for school students. Include module names, key topics, and a brief description for each module. Structure it as a clear, easy-to-read list or bullet points.`;
-
-            const generatedSyllabus = await callGeminiAPI(prompt);
-
-            if (outputDiv) {
-                // Ensure marked is loaded before parsing
-                if (typeof marked !== 'undefined') {
-                     outputDiv.innerHTML = `<h4 class="font-semibold text-purple-800 mb-2">Suggested Syllabus for ${courseTitle}:</h4><div class="prose prose-sm">${marked.parse(generatedSyllabus)}</div>`;
-                } else {
-                    // Fallback to pre-formatted text if marked.js is not loaded
-                    outputDiv.innerHTML = `<h4 class="font-semibold text-purple-800 mb-2">Suggested Syllabus for ${courseTitle}:</h4><pre class="whitespace-pre-wrap">${generatedSyllabus}</pre>`;
+                if (outputDiv) {
+                    outputDiv.classList.remove('hidden');
+                    outputDiv.innerHTML = '<p class="text-center text-purple-700">Generating syllabus...</p>';
                 }
-            }
+
+                const prompt = `Generate a detailed syllabus idea for a robotics course titled "${courseTitle}" for school students. Include module names, key topics, and a brief description for each module. Structure it as a clear, easy-to-read list or bullet points.`;
+
+                const generatedSyllabus = await callGeminiAPI(prompt);
+
+                if (outputDiv) {
+                    // Ensure marked is loaded before parsing
+                    if (typeof marked !== 'undefined') {
+                         outputDiv.innerHTML = `<h4 class="font-semibold text-purple-800 mb-2">Suggested Syllabus for ${courseTitle}:</h4><div class="prose prose-sm">${marked.parse(generatedSyllabus)}</div>`;
+                    } else {
+                        // Fallback to pre-formatted text if marked.js is not loaded
+                        outputDiv.innerHTML = `<h4 class="font-semibold text-purple-800 mb-2">Suggested Syllabus for ${courseTitle}:</h4><pre class="whitespace-pre-wrap">${generatedSyllabus}</pre>`;
+                    }
+                }
+            });
         });
-    });
+    }
+
 
     // Feature 2: Generate Workshop Ideas on Programs Page
     if (generateWorkshopBtn && workshopTopicInput && workshopOutput) {
@@ -266,7 +268,16 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             messageElement.classList.add('bg-gray-200', 'text-gray-800', 'rounded-bl-none');
         }
-        messageElement.textContent = message;
+        messageElement.textContent = message; // Initial text content
+
+        // If it's a model message and marked is available, parse markdown
+        if (sender === 'model' && typeof marked !== 'undefined') {
+            messageElement.innerHTML = marked.parse(message);
+            messageElement.classList.add('prose', 'prose-sm'); // Add prose classes for styling
+        } else {
+            messageElement.textContent = message;
+        }
+
         chatMessagesContainer.appendChild(messageElement);
         chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight; // Scroll to bottom
     };
@@ -325,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 // Call Gemini API for chatbot response (using gemini-2.0-flash for chat)
                 const payload = { contents: chatbotChatHistory };
-                const apiKey = "AIzaSyCsX1cPaU-lkvg3vrJhnexwmx5qRILunzk"; // Canvas will automatically provide the API key
+                const apiKey = ""; // Canvas will automatically provide the API key
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
@@ -344,24 +355,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
                     const modelResponse = result.candidates[0].content.parts[0].text;
-                    // Render markdown if marked.js is available
-                    if (typeof marked !== 'undefined') {
-                        const parsedResponse = marked.parse(modelResponse);
-                        const modelMessageElement = document.createElement('div');
-                        modelMessageElement.classList.add('p-3', 'rounded-lg', 'max-w-[75%]', 'mb-2', 'break-words', 'bg-gray-200', 'text-gray-800', 'rounded-bl-none', 'prose', 'prose-sm');
-                        modelMessageElement.innerHTML = parsedResponse;
-                        chatMessagesContainer.appendChild(modelMessageElement);
-                    } else {
-                        // Fallback to plain text
-                        appendChatMessage('model', modelResponse);
-                    }
+                    appendChatMessage('model', modelResponse); // appendChatMessage now handles markdown
                     chatbotChatHistory.push({ role: "model", parts: [{ text: modelResponse }] });
                 } else {
                     console.error("Gemini API returned an unexpected structure for chatbot:", result);
                     appendChatMessage('model', "Sorry, I couldn't generate a response. Please try again.");
                 }
             } catch (error) {
-                console.error("Error calling Gemini API for chatbot:", error); 
+                console.error("Error calling Gemini API for chatbot:", error);
                 // Remove typing indicator
                 if (chatMessagesContainer.contains(typingIndicator)) {
                     chatMessagesContainer.removeChild(typingIndicator);
