@@ -427,4 +427,192 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- Achievements Page Specific Logic ---
+    const achievementsDisplay = document.getElementById('achievements-display');
+    const tabButtons = document.querySelectorAll('.achievement-tabs .tab-button');
+    const filterCheckboxes = document.querySelectorAll('.filter-checkbox');
+    const clearFiltersBtn = document.getElementById('clear-filters-btn');
+    const filterToggleBtn = document.getElementById('filter-toggle-btn');
+    const filterOptions = document.getElementById('filter-options');
+
+
+    // Sample Achievement Data (you can expand this with more real data)
+    const allAchievements = [
+        {
+            id: 1,
+            type: 'competition-wins',
+            program: 'School Programs',
+            title: 'National Robotics Olympiad 2024 - Gold Medal',
+            description: 'Team "RoboWizards" secured the top spot in the national competition with their innovative waste-sorting robot.',
+            image: 'https://placehold.co/400x250/6366F1/FFFFFF?text=Olympiad+Win',
+            date: 'May 2024'
+        },
+        {
+            id: 2,
+            type: 'student-projects',
+            program: 'Weekend Classes',
+            title: 'Smart Home Automation System',
+            description: 'A group of students developed an IoT-based smart home system controlling lights, fans, and security via a mobile app.',
+            image: 'https://placehold.co/400x250/8B5CF6/FFFFFF?text=Smart+Home+IoT',
+            date: 'April 2024'
+        },
+        {
+            id: 3,
+            type: 'certifications-milestones',
+            program: 'Workshop/Internship Programs',
+            title: 'Certified Arduino Specialist',
+            description: 'Several students successfully completed the advanced Arduino certification, demonstrating mastery in micro-controller programming.',
+            image: 'https://placehold.co/400x250/EC4899/FFFFFF?text=Arduino+Cert',
+            date: 'March 2024'
+        },
+        {
+            id: 4,
+            type: 'success-stories',
+            program: 'Weekday Classes',
+            title: 'From Novice to Innovator: Rahul\'s Journey',
+            description: 'Rahul, a former student, shares how SK Robotics helped him discover his passion for AI and land an internship at a tech startup.',
+            image: 'https://placehold.co/400x250/10B981/FFFFFF?text=Success+Story',
+            date: 'February 2024'
+        },
+        {
+            id: 5,
+            type: 'competition-wins',
+            program: 'Weekend Classes',
+            title: 'Regional Line-Following Robot Challenge - 1st Place',
+            description: 'Our junior team showcased precision and speed, winning the regional line-following robot competition.',
+            image: 'https://placehold.co/400x250/3B82F6/FFFFFF?text=Line+Follower',
+            date: 'January 2024'
+        },
+        {
+            id: 6,
+            type: 'student-projects',
+            program: 'School Programs',
+            title: 'Eco-Friendly Waste Segregator',
+            description: 'Students designed and built an automated system that uses sensors to segregate wet and dry waste, promoting sustainability.',
+            image: 'https://placehold.co/400x250/F59E0B/FFFFFF?text=Waste+Segregator',
+            date: 'December 2023'
+        },
+        {
+            id: 7,
+            type: 'certifications-milestones',
+            program: 'Weekday Classes',
+            title: 'Python for Robotics - Advanced Certification',
+            description: 'Students achieved advanced certification in Python programming specifically tailored for robotics applications.',
+            image: 'https://placehold.co/400x250/6D28D9/FFFFFF?text=Python+Cert',
+            date: 'November 2023'
+        },
+        {
+            id: 8,
+            type: 'success-stories',
+            program: 'Workshop/Internship Programs',
+            title: 'Internship at Leading AI Firm - Priya\'s Achievement',
+            description: 'Priya, an intern from our AI program, secured a full-time position at a leading AI development company.',
+            image: 'https://placehold.co/400x250/EF4444/FFFFFF?text=Priya+Success',
+            date: 'October 2023'
+        },
+    ];
+
+    let currentActiveTab = 'competition-wins'; // Default active tab
+    let activeFilters = ['School Programs', 'Workshop/Internship Programs', 'Weekday Classes', 'Weekend Classes']; // All active by default
+
+    /**
+     * Renders achievement cards based on the active tab and filters.
+     */
+    const renderAchievements = () => {
+        if (!achievementsDisplay) return;
+
+        achievementsDisplay.innerHTML = ''; // Clear previous achievements
+
+        const filteredAchievements = allAchievements.filter(achievement => {
+            const matchesTab = achievement.type === currentActiveTab;
+            const matchesFilter = activeFilters.includes(achievement.program);
+            return matchesTab && matchesFilter;
+        });
+
+        if (filteredAchievements.length === 0) {
+            achievementsDisplay.innerHTML = '<p class="text-center text-gray-600 col-span-full">No achievements found for the selected criteria.</p>';
+            return;
+        }
+
+        filteredAchievements.forEach(achievement => {
+            const achievementCard = document.createElement('div');
+            achievementCard.classList.add(
+                'bg-white', 'rounded-lg', 'shadow-lg', 'overflow-hidden',
+                'transform', 'transition', 'duration-300', 'hover:scale-105',
+                'hover:shadow-xl', 'animate-on-scroll' // Add animation class
+            );
+
+            achievementCard.innerHTML = `
+                <img src="${achievement.image}" alt="${achievement.title}" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-indigo-700 mb-2">${achievement.title}</h3>
+                    <p class="text-gray-600 text-sm mb-3">${achievement.date} | ${achievement.program}</p>
+                    <p class="text-gray-700 mb-4">${achievement.description}</p>
+                    <a href="#" class="inline-block text-indigo-600 hover:text-indigo-800 font-semibold text-sm transition duration-300">
+                        Read More <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            `;
+            achievementsDisplay.appendChild(achievementCard);
+        });
+    };
+
+    // Event listeners for tab buttons
+    if (tabButtons.length > 0) {
+        tabButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                // Remove active class from all tabs
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active', 'border-b-4', 'border-indigo-600', 'text-indigo-700');
+                    btn.classList.add('text-gray-600');
+                });
+
+                // Add active class to clicked tab
+                event.target.classList.add('active', 'border-b-4', 'border-indigo-600', 'text-indigo-700');
+                event.target.classList.remove('text-gray-600');
+
+                currentActiveTab = event.target.dataset.tab;
+                renderAchievements(); // Re-render achievements for the new tab
+            });
+        });
+    }
+
+    // Event listeners for filter checkboxes
+    if (filterCheckboxes.length > 0) {
+        filterCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                activeFilters = Array.from(filterCheckboxes)
+                    .filter(cb => cb.checked)
+                    .map(cb => cb.value);
+                renderAchievements(); // Re-render achievements with new filters
+            });
+        });
+    }
+
+    // Event listener for clear filters button
+    if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', () => {
+            filterCheckboxes.forEach(checkbox => {
+                checkbox.checked = false; // Uncheck all checkboxes
+            });
+            activeFilters = []; // Clear active filters
+            renderAchievements(); // Re-render achievements
+        });
+    }
+
+    // Toggle filter options visibility on mobile
+    if (filterToggleBtn && filterOptions) {
+        filterToggleBtn.addEventListener('click', () => {
+            filterOptions.classList.toggle('hidden');
+            filterToggleBtn.querySelector('i').classList.toggle('fa-chevron-down');
+            filterToggleBtn.querySelector('i').classList.toggle('fa-chevron-up');
+        });
+    }
+
+
+    // Initial render of achievements when the page loads (only if on achievements.html)
+    if (achievementsDisplay) {
+        renderAchievements();
+    }
 });
