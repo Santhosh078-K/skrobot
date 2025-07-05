@@ -148,17 +148,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const studentName = document.getElementById('student-name').value.trim();
             const studentAge = document.getElementById('student-age').value.trim();
             const phoneNumber = document.getElementById('phone-number').value.trim();
-            const emailAddress = document.getElementById('email-address').value.trim();
-            const courseProgram = document.getElementById('course-program').value;
+            const schoolName = document.getElementById('text').value.trim(); // Corrected ID for school name
+            const courseProgram = document.getElementById('course-program').value; // This ID is used for both course and program interest, might need clarification if they are separate fields
 
-            if (!parentName || !studentName || !studentAge || !phoneNumber || !emailAddress || !courseProgram) {
+            // Basic validation for required fields
+            if (!parentName || !studentName || !studentAge || !phoneNumber || !schoolName || !courseProgram) {
                 displayMessage('Please fill in all required fields.', false);
-                return;
-            }
-
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(emailAddress)) {
-                displayMessage('Please enter a valid email address.', false);
                 return;
             }
 
@@ -168,8 +163,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Set the _replyto hidden field before submission
-            document.getElementById('form-reply-to-email').value = emailAddress;
+            // Set the _replyto hidden field before submission (assuming an email input exists or can be derived)
+            // If there's no explicit email input, you might need to add one or remove this line.
+            // For now, I'll comment it out as there's no 'email-address' ID in the registration form.
+            // document.getElementById('form-reply-to-email').value = emailAddress;
 
             // Use fetch to submit the form data to Formspree
             const formData = new FormData(registrationForm);
@@ -198,6 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+
     // --- Gemini API Integrations ---
 
     /**
@@ -209,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let chatHistory = [];
         chatHistory.push({ role: "user", parts: [{ text: prompt }] });
         const payload = { contents: chatHistory };
-        const apiKey = "AIzaSyCsX1cPaU-lkvg3vrJhnexwmx5qRILunzk"; // Canvas will automatically provide the API key
+        const apiKey = ""; // Canvas will automatically provide the API key
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
         try {
@@ -385,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 // Call Gemini API for chatbot response (using gemini-2.0-flash for chat)
                 const payload = { contents: chatbotChatHistory };
-                const apiKey = "AIzaSyCsX1cPaU-lkvg3vrJhnexwmx5qRILunzk"; // Canvas will automatically provide the API key
+                const apiKey = ""; // Canvas will automatically provide the API key
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
